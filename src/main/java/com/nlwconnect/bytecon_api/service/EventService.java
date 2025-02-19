@@ -10,7 +10,6 @@ import com.nlwconnect.bytecon_api.repository.EventRepository;
 
 @Service
 public class EventService {
-
   @Autowired
   private EventRepository eventRepository;
 
@@ -19,7 +18,7 @@ public class EventService {
   }
 
   public Event getEventByPrettyName(String prettyName) {
-    return eventRepository.findByPrettyName(prettyName);
+    return eventRepository.findEventByPrettyName(prettyName);
   }
 
   public Event addNewEvent(Event event) {
