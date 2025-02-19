@@ -1,7 +1,11 @@
 package com.nlwconnect.bytecon_api.service;
 
+import java.util.List;
+import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.nlwconnect.bytecon_api.dto.SubscriptionRankingByUser;
+import com.nlwconnect.bytecon_api.dto.SubscriptionRankingItem;
 import com.nlwconnect.bytecon_api.dto.SubscriptionResponse;
 import com.nlwconnect.bytecon_api.exception.EventNotFoundException;
 import com.nlwconnect.bytecon_api.exception.SubscriptionConflictException;
@@ -31,10 +35,13 @@ public class SubscriptionService {
       throw new EventNotFoundException("Event " + eventName + " not exists");
     }
 
-    User indicationUser = userRepository.findById(indicationUserId).orElse(null);
+    User indicationUser = null;
 
-    if (indicationUser == null) { // User indication does not exists case
-      throw new UserIndicatorNotFoundException("Invalid indication");
+    if (indicationUserId != null) {
+      indicationUser = userRepository.findById(indicationUserId).orElse(null);
+      if (indicationUser == null) { // User indication does not exists case
+        throw new UserIndicatorNotFoundException("Invalid indication");
+      }
     }
 
     User userRec = userRepository.findUserByEmail(user.getEmail());
@@ -60,5 +67,30 @@ public class SubscriptionService {
 
     return new SubscriptionResponse(res.getSubscriptionNumber(),
         "http://bytecon.com/subscription/" + res.getEvent().getPrettyName() + "/" + res.getSubscriber().getId());
+  }
+
+  public List<SubscriptionRankingItem> getRankingByEvent(String prettyName) {
+    Event evt = eventRepository.findEventByPrettyName(prettyName);
+
+    if (evt == null) {
+      throw new EventNotFoundException("Event ranking " + prettyName + " does not exists");
+    }
+
+    return subsRepository.generateRanking(evt.getEventId());
+  }
+
+  public SubscriptionRankingByUser getRankingByEventAndUser(String prettyName, Integer userId) {
+    List<SubscriptionRankingItem> ranking = getRankingByEvent(prettyName);
+    SubscriptionRankingItem item = ranking.stream().filter(i -> i.userId().equals(userId)).findFirst().orElse(null);
+
+    if (item == null) {
+      throw new UserIndicatorNotFoundException("There are no sign-ups for this user");
+    }
+
+    Integer posicao = IntStream.range(0, ranking.size())
+        .filter(pos -> ranking.get(pos).userId().equals(userId))
+        .findFirst().getAsInt();
+
+    return new SubscriptionRankingByUser(item, posicao + 1);
   }
 }
