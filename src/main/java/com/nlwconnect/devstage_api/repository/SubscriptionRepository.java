@@ -1,13 +1,13 @@
-package com.nlwconnect.bytecon_api.repository;
+package com.nlwconnect.devstage_api.repository;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import com.nlwconnect.bytecon_api.dto.SubscriptionRankingItem;
-import com.nlwconnect.bytecon_api.model.Event;
-import com.nlwconnect.bytecon_api.model.Subscription;
-import com.nlwconnect.bytecon_api.model.User;
+import com.nlwconnect.devstage_api.dto.SubscriptionRankingItem;
+import com.nlwconnect.devstage_api.model.Event;
+import com.nlwconnect.devstage_api.model.Subscription;
+import com.nlwconnect.devstage_api.model.User;
 
 public interface SubscriptionRepository extends CrudRepository<Subscription, Integer> {
   public Subscription findSubscriptionByEventAndSubscriber(Event event, User user);

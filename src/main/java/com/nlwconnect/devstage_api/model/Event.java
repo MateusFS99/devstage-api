@@ -1,4 +1,4 @@
-package com.nlwconnect.bytecon_api.model;
+package com.nlwconnect.devstage_api.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

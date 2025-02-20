@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.nlwconnect</groupId>
-	<artifactId>bytecon-api</artifactId>
+	<artifactId>devstage-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>bytecon-api</name>
+	<name>devstage-api</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

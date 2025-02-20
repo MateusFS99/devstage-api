@@ -1,10 +1,10 @@
-package com.nlwconnect.bytecon_api;
+package com.nlwconnect.devstage_api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ByteconApiApplicationTests {
+class DevstageApiApplicationTests {
 
 	@Test
 	void contextLoads() {

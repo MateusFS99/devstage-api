@@ -1,12 +1,12 @@
-package com.nlwconnect.bytecon_api;
+package com.nlwconnect.devstage_api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ByteconApiApplication {
+public class DevstageApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ByteconApiApplication.class, args);
+		SpringApplication.run(DevstageApiApplication.class, args);
 	}
 }

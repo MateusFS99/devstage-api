@@ -1,15 +1,15 @@
-package com.nlwconnect.bytecon_api.controller;
+package com.nlwconnect.devstage_api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import com.nlwconnect.bytecon_api.dto.ErrorMessage;
-import com.nlwconnect.bytecon_api.dto.SubscriptionResponse;
-import com.nlwconnect.bytecon_api.exception.EventNotFoundException;
-import com.nlwconnect.bytecon_api.exception.SubscriptionConflictException;
-import com.nlwconnect.bytecon_api.exception.UserIndicatorNotFoundException;
-import com.nlwconnect.bytecon_api.model.User;
-import com.nlwconnect.bytecon_api.service.SubscriptionService;
+import com.nlwconnect.devstage_api.dto.ErrorMessage;
+import com.nlwconnect.devstage_api.dto.SubscriptionResponse;
+import com.nlwconnect.devstage_api.exception.EventNotFoundException;
+import com.nlwconnect.devstage_api.exception.SubscriptionConflictException;
+import com.nlwconnect.devstage_api.exception.UserIndicatorNotFoundException;
+import com.nlwconnect.devstage_api.model.User;
+import com.nlwconnect.devstage_api.service.SubscriptionService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
