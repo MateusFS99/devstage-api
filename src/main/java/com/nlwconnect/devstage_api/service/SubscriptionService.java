@@ -66,7 +66,7 @@ public class SubscriptionService {
     Subscription res = subsRepository.save(subs);
 
     return new SubscriptionResponse(res.getSubscriptionNumber(),
-        "http://devstage.com/subscription/" + res.getEvent().getPrettyName() + "/" + res.getSubscriber().getId());
+        "http://localhost:3000/" + res.getEvent().getPrettyName() + "/?referrer=" + res.getSubscriber().getId());
   }
 
   public List<SubscriptionRankingItem> getRankingByEvent(String prettyName) {
