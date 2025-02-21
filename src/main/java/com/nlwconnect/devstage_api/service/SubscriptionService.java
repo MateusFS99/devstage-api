@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.nlwconnect.devstage_api.dto.SubscriptionRankingByUser;
+
+import com.nlwconnect.devstage_api.dto.RankingPosition;
 import com.nlwconnect.devstage_api.dto.SubscriptionRankingItem;
 import com.nlwconnect.devstage_api.dto.SubscriptionResponse;
 import com.nlwconnect.devstage_api.exception.EventNotFoundException;
@@ -79,7 +80,7 @@ public class SubscriptionService {
     return subsRepository.generateRanking(evt.getEventId());
   }
 
-  public SubscriptionRankingByUser getRankingByEventAndUser(String prettyName, Integer userId) {
+  public RankingPosition getEventRankingPositionByUser(String prettyName, Integer userId) {
     List<SubscriptionRankingItem> ranking = getRankingByEvent(prettyName);
     SubscriptionRankingItem item = ranking.stream().filter(i -> i.userId().equals(userId)).findFirst().orElse(null);
 
@@ -91,6 +92,6 @@ public class SubscriptionService {
         .filter(pos -> ranking.get(pos).userId().equals(userId))
         .findFirst().getAsInt();
 
-    return new SubscriptionRankingByUser(item, posicao + 1);
+    return new RankingPosition(posicao + 1);
   }
 }

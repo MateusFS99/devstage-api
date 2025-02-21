@@ -10,17 +10,33 @@ import com.nlwconnect.devstage_api.exception.SubscriptionConflictException;
 import com.nlwconnect.devstage_api.exception.UserIndicatorNotFoundException;
 import com.nlwconnect.devstage_api.model.User;
 import com.nlwconnect.devstage_api.service.SubscriptionService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
+@RequestMapping("/api/v1/subscription")
+@Tag(name = "Subscriptions")
 public class SubscriptionController {
   @Autowired
   private SubscriptionService subsService;
 
-  @PostMapping({ "/subscription/{prettyName}", "/subscription/{prettyName}/{userId}" })
+  @Operation(summary = "Create new subscription")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Subscription created"),
+      @ApiResponse(responseCode = "404", description = "Event not found"),
+      @ApiResponse(responseCode = "409", description = "Subscription conflict"),
+      @ApiResponse(responseCode = "404", description = "User indicator not found")
+  })
+  @PostMapping({ "/{prettyName}", "/{prettyName}/{userId}" })
   public ResponseEntity<?> createSubscription(@PathVariable String prettyName,
       @PathVariable(required = false) Integer userId,
       @RequestBody User subscriber) {
@@ -37,7 +53,12 @@ public class SubscriptionController {
     }
   }
 
-  @GetMapping("/subscription/{prettyName}/ranking")
+  @Operation(summary = "Get event ranking")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Ranking generated"),
+      @ApiResponse(responseCode = "404", description = "Event not found")
+  })
+  @GetMapping("/{prettyName}/ranking")
   public ResponseEntity<?> generateRankingByEvent(@PathVariable String prettyName) {
     try {
       return ResponseEntity.ok(subsService.getRankingByEvent(prettyName));
@@ -46,11 +67,16 @@ public class SubscriptionController {
     }
   }
 
-  @GetMapping("/subscription/{prettyName}/ranking/{userId}")
-  public ResponseEntity<?> generateRankingByEventAndUser(@PathVariable String prettyName,
+  @Operation(summary = "Get user event ranking position")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Position generated"),
+      @ApiResponse(responseCode = "404", description = "Event not found")
+  })
+  @GetMapping("/{prettyName}/ranking/{userId}")
+  public ResponseEntity<?> getEventRankingPositionByUser(@PathVariable String prettyName,
       @PathVariable Integer userId) {
     try {
-      return ResponseEntity.ok(subsService.getRankingByEventAndUser(prettyName, userId));
+      return ResponseEntity.ok(subsService.getEventRankingPositionByUser(prettyName, userId));
     } catch (Exception ex) {
       return ResponseEntity.status(404).body(new ErrorMessage(ex.getMessage()));
     }
