@@ -67,16 +67,16 @@ public class SubscriptionController {
     }
   }
 
-  @Operation(summary = "Get user event ranking position")
+  @Operation(summary = "Get user event stats")
   @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Position generated"),
+      @ApiResponse(responseCode = "200", description = "Stats generated"),
       @ApiResponse(responseCode = "404", description = "Event not found")
   })
   @GetMapping("/{prettyName}/ranking/{userId}")
-  public ResponseEntity<?> getEventRankingPositionByUser(@PathVariable String prettyName,
+  public ResponseEntity<?> getUserEventStats(@PathVariable String prettyName,
       @PathVariable Integer userId) {
     try {
-      return ResponseEntity.ok(subsService.getEventRankingPositionByUser(prettyName, userId));
+      return ResponseEntity.ok(subsService.getUserEventStats(prettyName, userId));
     } catch (Exception ex) {
       return ResponseEntity.status(404).body(new ErrorMessage(ex.getMessage()));
     }

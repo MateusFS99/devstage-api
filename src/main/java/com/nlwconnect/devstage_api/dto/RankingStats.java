@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SubscriptionResponse {
-  private Integer subscriptionNumber;
-  private String designation;
+public class RankingStats {
+  private Long indications;
+  private Integer position;
 }

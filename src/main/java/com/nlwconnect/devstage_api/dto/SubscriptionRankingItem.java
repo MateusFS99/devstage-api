@@ -1,5 +1,12 @@
 package com.nlwconnect.devstage_api.dto;
 
-public record SubscriptionRankingItem(Long subscribers, Integer userId, String name) {
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
+@Data
+@AllArgsConstructor
+public class SubscriptionRankingItem {
+  private Long subscribers;
+  private Integer userId;
+  private String name;
 }

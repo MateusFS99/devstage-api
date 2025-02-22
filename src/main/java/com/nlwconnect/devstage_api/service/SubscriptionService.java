@@ -5,7 +5,7 @@ import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nlwconnect.devstage_api.dto.RankingPosition;
+import com.nlwconnect.devstage_api.dto.RankingStats;
 import com.nlwconnect.devstage_api.dto.SubscriptionRankingItem;
 import com.nlwconnect.devstage_api.dto.SubscriptionResponse;
 import com.nlwconnect.devstage_api.exception.EventNotFoundException;
@@ -80,18 +80,18 @@ public class SubscriptionService {
     return subsRepository.generateRanking(evt.getEventId());
   }
 
-  public RankingPosition getEventRankingPositionByUser(String prettyName, Integer userId) {
+  public RankingStats getUserEventStats(String prettyName, Integer userId) {
     List<SubscriptionRankingItem> ranking = getRankingByEvent(prettyName);
-    SubscriptionRankingItem item = ranking.stream().filter(i -> i.userId().equals(userId)).findFirst().orElse(null);
+    SubscriptionRankingItem item = ranking.stream().filter(i -> i.getUserId().equals(userId)).findFirst().orElse(null);
 
     if (item == null) {
       throw new UserIndicatorNotFoundException("There are no sign-ups for this user");
     }
 
     Integer posicao = IntStream.range(0, ranking.size())
-        .filter(pos -> ranking.get(pos).userId().equals(userId))
+        .filter(pos -> ranking.get(pos).getUserId().equals(userId))
         .findFirst().getAsInt();
 
-    return new RankingPosition(posicao + 1);
+    return new RankingStats(item.getSubscribers(), posicao + 1);
   }
 }
