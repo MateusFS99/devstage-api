@@ -23,6 +23,7 @@ USE `db_events` ;
 CREATE TABLE IF NOT EXISTS `db_events`.`tbl_event` (
   `event_id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(255) NOT NULL,
+  `description` TEXT NOT NULL,
   `pretty_name` VARCHAR(50) NOT NULL,
   `location` VARCHAR(255) NOT NULL,
   `price` DOUBLE NOT NULL,

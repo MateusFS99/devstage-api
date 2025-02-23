@@ -23,6 +23,9 @@ public class Event {
   @Column(name = "title", length = 255, nullable = false)
   private String title;
 
+  @Column(name = "description", length = 65535, nullable = false)
+  private String description;
+
   @Column(name = "pretty_name", length = 50, nullable = false, unique = true)
   private String prettyName;
 
