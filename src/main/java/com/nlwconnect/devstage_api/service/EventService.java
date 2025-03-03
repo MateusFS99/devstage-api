@@ -1,12 +1,12 @@
-package com.nlwconnect.bytecon_api.service;
+package com.nlwconnect.devstage_api.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nlwconnect.bytecon_api.model.Event;
-import com.nlwconnect.bytecon_api.repository.EventRepository;
+import com.nlwconnect.devstage_api.model.Event;
+import com.nlwconnect.devstage_api.repository.EventRepository;
 
 @Service
 public class EventService {

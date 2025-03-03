@@ -1,4 +1,4 @@
-package com.nlwconnect.bytecon_api.model;
+package com.nlwconnect.devstage_api.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,13 +8,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @Entity
 @Table(name = "tbl_subscription")
-@Getter
-@Setter
+@Data
 public class Subscription {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

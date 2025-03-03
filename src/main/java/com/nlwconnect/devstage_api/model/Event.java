@@ -1,4 +1,4 @@
-package com.nlwconnect.bytecon_api.model;
+package com.nlwconnect.devstage_api.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -9,13 +9,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @Entity
 @Table(name = "tbl_event")
-@Getter
-@Setter
+@Data
 public class Event {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +22,9 @@ public class Event {
 
   @Column(name = "title", length = 255, nullable = false)
   private String title;
+
+  @Column(name = "description", length = 65535, nullable = false)
+  private String description;
 
   @Column(name = "pretty_name", length = 50, nullable = false, unique = true)
   private String prettyName;

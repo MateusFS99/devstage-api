@@ -1,4 +1,4 @@
-package com.nlwconnect.bytecon_api.exception;
+package com.nlwconnect.devstage_api.exception;
 
 public class EventNotFoundException extends RuntimeException {
   public EventNotFoundException(String message) {

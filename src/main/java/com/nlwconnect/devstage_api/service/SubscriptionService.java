@@ -1,21 +1,22 @@
-package com.nlwconnect.bytecon_api.service;
+package com.nlwconnect.devstage_api.service;
 
 import java.util.List;
 import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.nlwconnect.bytecon_api.dto.SubscriptionRankingByUser;
-import com.nlwconnect.bytecon_api.dto.SubscriptionRankingItem;
-import com.nlwconnect.bytecon_api.dto.SubscriptionResponse;
-import com.nlwconnect.bytecon_api.exception.EventNotFoundException;
-import com.nlwconnect.bytecon_api.exception.SubscriptionConflictException;
-import com.nlwconnect.bytecon_api.exception.UserIndicatorNotFoundException;
-import com.nlwconnect.bytecon_api.model.Event;
-import com.nlwconnect.bytecon_api.model.Subscription;
-import com.nlwconnect.bytecon_api.model.User;
-import com.nlwconnect.bytecon_api.repository.EventRepository;
-import com.nlwconnect.bytecon_api.repository.SubscriptionRepository;
-import com.nlwconnect.bytecon_api.repository.UserRepository;
+
+import com.nlwconnect.devstage_api.dto.RankingStats;
+import com.nlwconnect.devstage_api.dto.SubscriptionRankingItem;
+import com.nlwconnect.devstage_api.dto.SubscriptionResponse;
+import com.nlwconnect.devstage_api.exception.EventNotFoundException;
+import com.nlwconnect.devstage_api.exception.SubscriptionConflictException;
+import com.nlwconnect.devstage_api.exception.UserIndicatorNotFoundException;
+import com.nlwconnect.devstage_api.model.Event;
+import com.nlwconnect.devstage_api.model.Subscription;
+import com.nlwconnect.devstage_api.model.User;
+import com.nlwconnect.devstage_api.repository.EventRepository;
+import com.nlwconnect.devstage_api.repository.SubscriptionRepository;
+import com.nlwconnect.devstage_api.repository.UserRepository;
 
 @Service
 public class SubscriptionService {
@@ -66,7 +67,7 @@ public class SubscriptionService {
     Subscription res = subsRepository.save(subs);
 
     return new SubscriptionResponse(res.getSubscriptionNumber(),
-        "http://bytecon.com/subscription/" + res.getEvent().getPrettyName() + "/" + res.getSubscriber().getId());
+        "http://localhost:3000/" + res.getEvent().getPrettyName() + "/?referrer=" + res.getSubscriber().getId());
   }
 
   public List<SubscriptionRankingItem> getRankingByEvent(String prettyName) {
@@ -79,18 +80,18 @@ public class SubscriptionService {
     return subsRepository.generateRanking(evt.getEventId());
   }
 
-  public SubscriptionRankingByUser getRankingByEventAndUser(String prettyName, Integer userId) {
+  public RankingStats getUserEventStats(String prettyName, Integer userId) {
     List<SubscriptionRankingItem> ranking = getRankingByEvent(prettyName);
-    SubscriptionRankingItem item = ranking.stream().filter(i -> i.userId().equals(userId)).findFirst().orElse(null);
+    SubscriptionRankingItem item = ranking.stream().filter(i -> i.getUserId().equals(userId)).findFirst().orElse(null);
 
     if (item == null) {
       throw new UserIndicatorNotFoundException("There are no sign-ups for this user");
     }
 
     Integer posicao = IntStream.range(0, ranking.size())
-        .filter(pos -> ranking.get(pos).userId().equals(userId))
+        .filter(pos -> ranking.get(pos).getUserId().equals(userId))
         .findFirst().getAsInt();
 
-    return new SubscriptionRankingByUser(item, posicao + 1);
+    return new RankingStats(item.getSubscribers(), posicao + 1);
   }
 }
