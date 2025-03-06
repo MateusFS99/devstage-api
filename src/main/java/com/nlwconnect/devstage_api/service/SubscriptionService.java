@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.nlwconnect.devstage_api.dto.RankingStats;
 import com.nlwconnect.devstage_api.dto.SubscriptionRankingItem;
-import com.nlwconnect.devstage_api.dto.SubscriptionResponse;
 import com.nlwconnect.devstage_api.exception.EventNotFoundException;
 import com.nlwconnect.devstage_api.exception.SubscriptionConflictException;
 import com.nlwconnect.devstage_api.exception.UserIndicatorNotFoundException;
@@ -29,7 +28,7 @@ public class SubscriptionService {
   @Autowired
   private SubscriptionRepository subsRepository;
 
-  public SubscriptionResponse createNewSubscription(String eventName, User user, Integer indicationUserId) {
+  public Subscription createNewSubscription(String eventName, User user, Integer indicationUserId) {
     Event evt = eventRepository.findEventByPrettyName(eventName);
 
     if (evt == null) { // Event not exists case
@@ -64,10 +63,7 @@ public class SubscriptionService {
     subs.setSubscriber(userRec);
     subs.setIndication(indicationUser);
 
-    Subscription res = subsRepository.save(subs);
-
-    return new SubscriptionResponse(res.getSubscriptionNumber(),
-        "http://localhost:3000/" + res.getEvent().getPrettyName() + "/?referrer=" + res.getSubscriber().getId());
+    return subsRepository.save(subs);
   }
 
   public List<SubscriptionRankingItem> getRankingByEvent(String prettyName) {

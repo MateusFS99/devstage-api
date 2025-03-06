@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import com.nlwconnect.devstage_api.dto.ErrorMessage;
-import com.nlwconnect.devstage_api.dto.SubscriptionResponse;
 import com.nlwconnect.devstage_api.exception.EventNotFoundException;
 import com.nlwconnect.devstage_api.exception.SubscriptionConflictException;
 import com.nlwconnect.devstage_api.exception.UserIndicatorNotFoundException;
+import com.nlwconnect.devstage_api.model.Subscription;
 import com.nlwconnect.devstage_api.model.User;
 import com.nlwconnect.devstage_api.service.SubscriptionService;
 
@@ -41,7 +41,7 @@ public class SubscriptionController {
       @PathVariable(required = false) Integer userId,
       @RequestBody User subscriber) {
     try {
-      SubscriptionResponse subs = subsService.createNewSubscription(prettyName, subscriber, userId);
+      Subscription subs = subsService.createNewSubscription(prettyName, subscriber, userId);
 
       return ResponseEntity.ok().body(subs);
     } catch (EventNotFoundException ex) {
